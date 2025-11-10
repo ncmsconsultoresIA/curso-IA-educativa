@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificar Certificado - CelinSubero Solutions</title>
+    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .verification-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .verification-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .verification-form {
+            display: flex;
+            gap: 15px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .verification-input {
+            flex: 1;
+            min-width: 300px;
+            padding: 15px 20px;
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            font-size: 1.1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        .verification-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(247, 37, 133, 0.3);
+        }
+        
+        .verification-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .verify-button {
+            background: linear-gradient(90deg, var(--accent), var(--primary));
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .verify-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        }
+        
+        .result-container {
+            margin: 30px 0;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .certificate-result {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: left;
+            border-left: 5px solid var(--success);
+        }
+        
+        .certificate-result.invalid {
+            border-left-color: var(--accent);
+            text-align: center;
+        }
+        
+        .certificate-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .status-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        
+        .status-valid {
+            background: rgba(76, 201, 240, 0.2);
+            color: var(--success);
+            border: 2px solid var(--success);
+        }
+        
+        .status-invalid {
+            background: rgba(247, 37, 133, 0.2);
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+        
+        .certificate-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .detail-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 3px solid var(--warning);
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: var(--success);
+            margin-bottom: 5px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: var(--success);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        
+        .back-link:hover {
+            color: var(--warning);
+        }
+        
+        .instructions {
+            background: rgba(76, 201, 240, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: var(--success);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .verification-form {
+                flex-direction: column;
+            }
+            
+            .verification-input {
+                min-width: auto;
+            }
+            
+            .certificate-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <img src="./assets/img/logo.jpeg" alt="CelinSubero Solutions" class="logo-image">
+                <div class="logo-text">
+                    <div class="logo-main">CelinSubero</div>
+                    <div class="logo-subtitle">SOLUTIONS</div>
+                    <div class="logo-tagline">Planificación, Evaluación y Tecnología Educativa</div>
+                </div>
+            </div>
+            <h1>Verificación de Certificados</h1>
+            <p>Valida la autenticidad de tu certificado CelinSubero ingresando el código único</p>
+        </div>
+
+        <div class="content-section">
+            <div class="section-header">
+                <h2><i class="fas fa-shield-alt"></i> Sistema de Verificación</h2>
+                <p>Garantía de autenticidad para tu desarrollo profesional</p>
+            </div>
+            
+            <div class="section-content">
+                <div class="verification-container">
+                    <div class="instructions">
+                        <h3><i class="fas fa-info-circle"></i> Cómo verificar tu certificado</h3>
+                        <p>Encuentra el código único en la parte inferior de tu certificado PDF. Ingresa el código completo en el campo de abajo y haz clic en "Verificar Certificado".</p>
+                        <p><strong>Formato del código:</strong> CS-IA-001, CS-IA-002, etc.</p>
+                    </div>
+                    
+                    <div class="verification-card">
+                        <div class="verification-form">
+                            <input type="text" 
+                                   id="certificateCode" 
+                                   class="verification-input" 
+                                   placeholder="Ingresa tu código (Ej: CS-IA-001)"
+                                   required
+                                   pattern="[A-Za-z0-9-]+"
+                                   title="Ingresa el código completo de tu certificado">
+                            <button type="button" class="verify-button" onclick="verifyCertificate()">
+                                <i class="fas fa-search"></i> Verificar Certificado
+                            </button>
+                        </div>
+                        
+                        <div id="resultContainer" class="result-container"></div>
+                        
+                        <a href="index.html" class="back-link">
+                            <i class="fas fa-arrow-left"></i> Volver al sitio principal
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <div class="contact-info">
+                <h3 style="color: var(--success); margin-bottom: 15px;">¿Problemas con la verificación?</h3>
+                <p>Contáctanos directamente y te ayudaremos:</p>
+                <p><i class="fas fa-envelope"></i> <a href="mailto:ncmsconsultores@gmail.com">ncmsconsultores@gmail.com</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de datos de certificados - ACTUALIZA ESTO con tus códigos reales
+        const validCertificates = {
+            'CS-IA-001': {
+                name: 'María González',
+                course: 'Taller de IA para Planificación y Evaluación Educativa',
+                date: '15 de Enero, 2024',
+                hours: '5 horas',
+                instructor: 'Nancy Celin y Miguel Subero',
+                code: 'CS-IA-001'
+            },
+            'CS-IA-002': {
+                name: 'Carlos Rodríguez',
+                course: 'Taller de IA para Planificación y Evaluación Educativa', 
+                date: '15 de Enero, 2024',
+                hours: '5 horas',
+                instructor: 'Nancy Celin y Miguel Subero',
+                code: 'CS-IA-002'
+            },
+            'CS-IA-003': {
+                name: 'Ana Martínez',
+                course: 'Taller de IA para Planificación y Evaluación Educativa',
+                date: '15 de Enero, 2024', 
+                hours: '5 horas',
+                instructor: 'Nancy Celin y Miguel Subero',
+                code: 'CS-IA-003'
+            }
+            // Agrega más códigos según necesites: CS-IA-004, CS-IA-005, etc.
+        };
+
+        function verifyCertificate() {
+            const code = document.getElementById('certificateCode').value.toUpperCase().trim();
+            const certificate = validCertificates[code];
+            const resultContainer = document.getElementById('resultContainer');
+            
+            if (!code) {
+                showError('Por favor ingresa un código de certificado');
+                return;
+            }
+            
+            if (certificate) {
+                showValidCertificate(certificate);
+            } else {
+                showInvalidCertificate(code);
+            }
+        }
+
+        function showValidCertificate(cert) {
+            const resultHTML = `
+                <div class="certificate-result">
+                    <div class="certificate-header">
+                        <div class="status-icon status-valid">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--success); margin-bottom: 5px;">✅ Certificado VÁLIDO</h3>
+                            <p>Emitido por CelinSubero Solutions</p>
+                        </div>
+                    </div>
+                    
+                    <div class="certificate-details">
+                        <div class="detail-item">
+                            <div class="detail-label">Participante</div>
+                            <div>${cert.name}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Curso/ Taller</div>
+                            <div>${cert.course}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Fecha</div>
+                            <div>${cert.date}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Duración</div>
+                            <div>${cert.hours}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Instructores</div>
+                            <div>${cert.instructor}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Código</div>
+                            <div><strong>${cert.code}</strong></div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 20px; padding: 15px; background: rgba(76, 201, 240, 0.1); border-radius: 10px;">
+                        <p style="color: var(--success); margin: 0;">
+                            <i class="fas fa-shield-alt"></i> Este certificado ha sido verificado y es auténtico
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            resultContainer.innerHTML = resultHTML;
+        }
+
+        function showInvalidCertificate(code) {
+            const resultHTML = `
+                <div class="certificate-result invalid">
+                    <div class="certificate-header">
+                        <div class="status-icon status-invalid">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div>
+                            <h3 style="color: var(--accent); margin-bottom: 5px;">❌ Certificado NO ENCONTRADO</h3>
+                            <p>Código: <strong>${code}</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin: 20px 0;">
+                        <p>El código ingresado no existe en nuestros registros oficiales.</p>
+                        <p>Por favor verifica que hayas ingresado el código correctamente.</p>
+                    </div>
+                    
+                    <div style="background: rgba(247, 37, 133, 0.1); padding: 15px; border-radius: 10px;">
+                        <h4 style="color: var(--accent); margin-bottom: 10px;">¿Qué puedes hacer?</h4>
+                        <ul style="text-align: left; margin-left: 20px;">
+                            <li>Verifica el código en tu certificado PDF</li>
+                            <li>Asegúrate de no tener espacios adicionales</li>
+                            <li>Contacta a <a href="mailto:ncmsconsultores@gmail.com" style="color: var(--success);">ncmsconsultores@gmail.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+            
+            resultContainer.innerHTML = resultHTML;
+        }
+
+        function showError(message) {
+            const resultContainer = document.getElementById('resultContainer');
+            resultContainer.innerHTML = `
+                <div class="certificate-result invalid">
+                    <div style="text-align: center;">
+                        <div class="status-icon status-invalid" style="margin: 0 auto 15px;">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <h3 style="color: var(--accent);">${message}</h3>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Permitir verificación con Enter
+        document.getElementById('certificateCode').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyCertificate();
+            }
+        });
+    </script>
+</body>
+</html>
