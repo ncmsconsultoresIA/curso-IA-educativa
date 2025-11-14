@@ -505,4 +505,28 @@ body {
     .logo-subtitle {
         font-size: 1.2rem;
     }
+}/* Estilos para fotos de facilitadores */
+.facilitator-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 20px;
+    border: 4px solid var(--primary);
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.facilitator-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Elimina o comenta los estilos existentes para .facilitator-avatar i */
+.facilitator-avatar i {
+    font-size: 3rem; /* Esto ya no será necesario con las fotos */
+    color: var(--primary);
 }
