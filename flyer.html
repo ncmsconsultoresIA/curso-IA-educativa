@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Intensivo: Planificación y Evaluación con IA</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #f72585;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #ffbe0b;
+            --instagram: #E4405F;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .flyer {
+            background: linear-gradient(145deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        
+        .flyer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--accent), var(--success), var(--warning));
+            z-index: 10;
+        }
+        
+        .hero {
+            display: flex;
+            flex-wrap: wrap;
+            min-height: 500px;
+        }
+        
+        .hero-image {
+            flex: 1;
+            min-width: 300px;
+            background: linear-gradient(rgba(58, 12, 163, 0.7), rgba(67, 97, 238, 0.7)), url('./assets/img/taller-ia.jpg') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+        }
+        
+        .hero-content {
+            flex: 1;
+            min-width: 300px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+        
+        .hero-content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+        
+        .hero-content p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .ai-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+        
+        .ai-element {
+            position: absolute;
+            font-size: 2rem;
+            color: rgba(255, 255, 255, 0.7);
+            animation: float 6s infinite ease-in-out;
+        }
+        
+        .ai-element:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .ai-element:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .ai-element:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .ai-element:nth-child(4) { bottom: 15%; right: 10%; animation-delay: 3s; }
+        .ai-element:nth-child(5) { top: 40%; left: 50%; animation-delay: 4s; }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        .benefits {
+            padding: 40px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .benefits h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2rem;
+            color: var(--warning);
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            border-left: 4px solid var(--success);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .benefit-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .benefit-card i {
+            font-size: 2rem;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+        
+        .benefit-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .practical-info {
+            padding: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .info-details {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .info-details h2 {
+            margin-bottom: 20px;
+            color: var(--accent);
+            font-size: 2rem;
+        }
+        
+        .info-list {
+            list-style: none;
+        }
+        
+        .info-list li {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-list i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: var(--warning);
+            width: 30px;
+        }
+        
+        .location-link {
+            color: var(--success);
+            text-decoration: none;
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: 1px solid var(--success);
+            border-radius: 5px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .location-link:hover {
+            background: var(--success);
+            color: var(--dark);
+        }
+        
+        .price-card {
+            flex: 1;
+            min-width: 250px;
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(247, 37, 133, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .price-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+        
+        .price-original {
+            text-decoration: line-through;
+            color: rgba(255,255,255,0.7);
+            font-size: 1.5rem;
+        }
+        
+        .price-final {
+            color: var(--warning);
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+        
+        .reserva-urgente {
+            background: linear-gradient(90deg, #ff0000, #ff6b6b);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 15px 0;
+            animation: pulse 1.5s infinite;
+        }
+        
+        .payment-info {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+        
+        .payment-plan {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+        }
+        
+        .payment-step {
+            text-align: center;
+            flex: 1;
+            padding: 10px;
+        }
+        
+        .payment-arrow {
+            color: var(--warning);
+            font-size: 1.5rem;
+        }
+        
+        .cta-section {
+            padding: 40px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--success);
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            color: white;
+            box-shadow: 0 5px 15px rgba(247, 37, 133, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(247, 37, 133, 0.6);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--success);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--success);
+            color: var(--dark);
+        }
+        
+        .btn-location {
+            background: linear-gradient(90deg, #4285F4, #34A853);
+            color: white;
+            margin-top: 10px;
+        }
+        
+        .btn-location:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(66, 133, 244, 0.6);
+        }
+        
+        .btn-instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+            margin: 10px 0;
+        }
+        
+        .btn-instagram:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(225, 48, 108, 0.6);
+        }
+        
+        .facilitators {
+            padding: 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .facilitators h2 {
+            margin-bottom: 30px;
+            color: var(--warning);
+            font-size: 2rem;
+        }
+        
+        .facilitator-profiles {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+        }
+        
+        .facilitator {
+            max-width: 300px;
+        }
+        
+        .facilitator-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            overflow: hidden;
+        }
+        
+        .facilitator-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+        
+        .facilitator h3 {
+            margin-bottom: 10px;
+            color: var(--success);
+        }
+        
+        .facilitator p {
+            font-style: italic;
+        }
+        
+        .urgency-banner {
+            background: linear-gradient(90deg, var(--accent), var(--warning));
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.8; }
+            50% { opacity: 1; }
+            100% { opacity: 0.8; }
+        }
+        
+        .device-reminder {
+            background: linear-gradient(90deg, var(--success), var(--primary));
+            padding: 15px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .social-section {
+            padding: 30px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-section h3 {
+            margin-bottom: 20px;
+            color: var(--warning);
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content, .benefits, .practical-info, .cta-section, .facilitators {
+                padding: 30px 20px;
+            }
+            
+            .cta-container {
+                flex-direction: column;
+            }
+            
+            .payment-plan {
+                flex-direction: column;
+            }
+            
+            .payment-arrow {
+                transform: rotate(90deg);
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="flyer">
+            <div class="urgency-banner">
+                🎯 ¡SOLO 20 CUPOS! Reserva con $5 - Precio final $20 🎯
+            </div>
+            
+            <section class="hero">
+                <div class="hero-image">
+                    <div class="ai-elements">
+                        <div class="ai-element"><i class="fas fa-brain"></i></div>
+                        <div class="ai-element"><i class="fas fa-robot"></i></div>
+                        <div class="ai-element"><i class="fas fa-microchip"></i></div>
+                        <div class="ai-element"><i class="fas fa-laptop-code"></i></div>
+                        <div class="ai-element"><i class="fas fa-graduation-cap"></i></div>
+                    </div>
+                    <h1>¡DOMINA LA IA Y TRANSFORMA TU FORMA DE ENSEÑAR!</h1>
+                </div>
+                <div class="hero-content">
+                    <h2>Taller Intensivo Presencial: Planificación y Evaluación con IA</h2>
+                    <p>Aprende el método probado para ahorrar horas de planificación y crear evaluaciones automáticas. Deja el estrés atrás y enfócate en lo que más te importa: tus estudiantes.</p>
+                    
+                    <div class="device-reminder">
+                        <i class="fas fa-laptop"></i> ¡IMPORTANTE! Trae tu dispositivo (computadora o tablet)
+                    </div>
+                    
+                    <button class="btn btn-primary" onclick="inscribirseAhora()">
+                        <i class="fas fa-ticket-alt"></i> ¡Reserva con $5 ahora!
+                    </button>
+                </div>
+            </section>
+            
+            <section class="benefits">
+                <h2>Lo Que Lograrás</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-card">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Crearás tu plan de clase con IA</h3>
+                        <p>Desarrolla planes de clase listos para usar con asistencia de inteligencia artificial.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-tasks"></i>
+                        <h3>Automatizarás rúbricas de evaluación</h3>
+                        <p>Configura Google Forms para evaluaciones que se califican automáticamente.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-magic"></i>
+                        <h3>Dominarás la "Fórmula del Prompt Perfecto"</h3>
+                        <p>Aprende la técnica RTCF para obtener resultados precisos de la IA y ahorrar tiempo.</p>
+                    </div>
+                    <div class="benefit-card">
+                        <i class="fas fa-vr-cardboard"></i>
+                        <h3>Integrarás Realidad Aumentada</h3>
+                        <p>Descubre cómo incorporar AR en tu aula para experiencias educativas inmersivas.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="practical-info">
+                <div class="info-details">
+                    <h2>Información Práctica</h2>
+                    <ul class="info-list">
+                        <li><i class="fas fa-money-bill-wave"></i> RESERVA: $5 (Precio final: $20)</li>
+                        <li><i class="fas fa-credit-card"></i> Saldo $15: hasta el 5 de diciembre o el día del taller en efectivo</li>
+                        <li><i class="fas fa-users"></i> CUPOS: Solo 20 participantes (experiencia personalizada)</li>
+                        <li><i class="fas fa-calendar-alt"></i> Fecha: 6 de Diciembre, 2025</li>
+                        <li><i class="fas fa-clock"></i> Hora: 8:00 AM</li>
+                        <li><i class="fas fa-laptop"></i> ¡Trae tu dispositivo! (computadora o tablet)</li>
+                        <li>
+                            <i class="fas fa-map-marker-alt"></i> 
+                            Ubicación: Torre UNO ST-01, Avenida Orinoco, Las Mercedes
+                            <a href="https://maps.google.com/?q=Torre+UNO+ST-01,+Avenida+Orinoco,+Las+Mercedes" target="_blank" class="location-link">
+                                <i class="fas fa-external-link-alt"></i> Ver en Maps
+                            </a>
+                        </li>
+                        <li><i class="fas fa-chalkboard-teacher"></i> Facilitan: Nancy Celin & Miguel Subero</li>
+                        <li><i class="fas fa-gift"></i> Incluye: Materiales, Refrigerio y Certificado</li>
+                    </ul>
+                    
+                    <button class="btn btn-location" onclick="abrirUbicacion()" style="margin-top: 20px;">
+                        <i class="fas fa-map-marked-alt"></i> Abrir en Google Maps / Waze
+                    </button>
+                </div>
+                <div class="price-card">
+                    <h3>Inversión Especial</h3>
+                    <div class="price-original">$80</div>
+                    <div class="price-final">$20</div>
+                    <p>Precio final del taller</p>
+                    
+                    <div class="payment-info">
+                        <h4 style="color: var(--warning); margin-bottom: 15px; text-align: center;">Plan de Pago Flexible</h4>
+                        
+                        <div class="payment-plan">
+                            <div class="payment-step">
+                                <div style="font-size: 1.8rem; color: var(--accent);">1</div>
+                                <strong>Reserva Online</strong>
+                                <div style="color: var(--success); font-weight: bold;">$5</div>
+                                <small>Garantiza tu cupo</small>
+                            </div>
+                            <div class="payment-arrow">
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                            <div class="payment-step">
+                                <div style="font-size: 1.8rem; color: var(--accent);">2</div>
+                                <strong>Saldo Restante</strong>
+                                <div style="color: var(--warning); font-weight: bold;">$15</div>
+                                <small>Hasta 5 dic o el día del taller</small>
+                            </div>
+                        </div>
+                        
+                        <div style="background: rgba(76, 201, 240, 0.2); padding: 10px; border-radius: 5px; margin-top: 10px; text-align: center;">
+                            <i class="fas fa-info-circle" style="color: var(--success);"></i>
+                            <strong> Opciones para saldo:</strong><br>
+                            • Transferencia hasta 5 de diciembre<br>
+                            • Efectivo el día del taller
+                        </div>
+                    </div>
+                    
+                    <div class="reserva-urgente">
+                        <i class="fas fa-exclamation-triangle"></i> SOLO 20 CUPOS
+                    </div>
+                    <button class="btn btn-secondary" onclick="inscribirseAhora()" style="margin-top: 20px;">
+                        <i class="fas fa-lock"></i> Reservar con $5
+                    </button>
+                </div>
+            </section>
+            
+            <section class="facilitators">
+                <h2>Conoce a los Facilitadores</h2>
+                <div class="facilitator-profiles">
+                    <div class="facilitator">
+                        <div class="facilitator-img">
+                            <img src="./assets/img/facilitadores/nancy-celin.jpg" alt="Nancy Celin" 
+                                 onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-user-graduate\'></i>';">
+                        </div>
+                        <h3>Nancy Celin</h3>
+                        <p>Especialista en Pedagogía con más de 15 años de experiencia en innovación educativa.</p>
+                    </div>
+                    <div class="facilitator">
+                        <div class="facilitator-img">
+                            <img src="./assets/img/facilitadores/miguel-subero.jpg" alt="Miguel Subero"
+                                 onerror="this.style.display='none'; this.parentNode.innerHTML='<i class=\'fas fa-robot\'></i>';">
+                        </div>
+                        <h3>Miguel Subero</h3>
+                        <p>Experto en IA aplicada a la educación y desarrollo de soluciones tecnológicas.</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="cta-section">
+                <h2>¡Transforma tu enseñanza con IA!</h2>
+                <p>Haz clic en el botón para reservar tu cupo con solo $5. Los lugares son extremadamente limitados para garantizar una experiencia personalizada.</p>
+                
+                <div class="cta-container">
+                    <div class="buttons">
+                        <button class="btn btn-primary" onclick="inscribirseAhora()" style="padding: 20px 40px; font-size: 1.3rem;">
+                            <i class="fas fa-check-circle"></i> ¡Quiero reservar mi cupo con $5!
+                        </button>
+                        <button class="btn btn-secondary" onclick="masInformacion()">
+                            <i class="fas fa-info-circle"></i> Más información del taller
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="social-section">
+                <h3>Síguenos en Instagram</h3>
+                <button class="btn btn-instagram" onclick="abrirInstagram()">
+                    <i class="fab fa-instagram"></i> @ncmsconsultores
+                </button>
+                
+                <div style="margin-top: 30px; padding: 20px; background: rgba(255,255,255,0.1); border-radius: 10px;">
+                    <h3 style="color: var(--warning); margin-bottom: 15px;">¿Preguntas?</h3>
+                    <p><i class="fas fa-envelope"></i> Contacto: <a href="mailto:ncmsconsultores@gmail.com" style="color: var(--success);">ncmsconsultores@gmail.com</a></p>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function inscribirseAhora() {
+            // Redirigir al formulario de Google para reserva
+            window.open('https://forms.gle/rj8cw6HgJotDddqGA', '_blank');
+        }
+        
+        function masInformacion() {
+            // Redirigir a la página principal con más información
+            window.open('https://ncmsconsultoresia.github.io/curso-IA-educativa/', '_blank');
+        }
+        
+        function abrirUbicacion() {
+            // Abrir la ubicación en Google Maps con búsqueda directa
+            window.open('https://maps.google.com/?q=Torre+UNO+ST-01,+Avenida+Orinoco,+Las+Mercedes', '_blank');
+        }
+        
+        function abrirInstagram() {
+            // Abrir perfil de Instagram
+            window.open('https://www.instagram.com/ncmsconsultores?utm_source=qr&igsh=MWdrajFsdWp1a3FlZg==', '_blank');
+        }
+        
+        // Efecto de escritura para el título principal
+        document.addEventListener('DOMContentLoaded', function() {
+            const title = document.querySelector('.hero-image h1');
+            const text = title.textContent;
+            title.textContent = '';
+            
+            let i = 0;
+            function typeWriter() {
+                if (i < text.length) {
+                    title.textContent += text.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 50);
+                }
+            }
+            
+            setTimeout(typeWriter, 1000);
+        });
+    </script>
+</body>
+</html>
